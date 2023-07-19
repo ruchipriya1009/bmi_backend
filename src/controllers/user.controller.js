@@ -2,12 +2,13 @@ const UserService = require("../services/user.service");
 const User=require('../models/user.model')
 async function registerUser(req, res) {
   try {
+     const { name, email, password } = req.body;
       const existingUser = await User.findOne({ email });
 
       if (existingUser) {
         throw new Error("Email already exists");
       }
-    const { name, email, password } = req.body;
+   
     console.log(name,email,password);
     const result = await UserService.createUser(name, email, password);
     res.status(201).json({message:`User with ${email} registered Successfully`});
